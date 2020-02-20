@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int N, K, i, cnt = 0;
+    cin >> N >> K;
+
+    int cost[N];
+    for(i = 0; i<N; i++)
+        cin >> cost[i];
+
+    while(K != 0){
+        for(i = N-1; i>=0; i--){
+            if(K/cost[i] > 0){
+                cnt = cnt + K/cost[i];
+                K = K%cost[i];
+            }
+        }
+    }
+    cout << cnt;
+
+    return 0;
+}
