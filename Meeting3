@@ -1,0 +1,45 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Meeting{
+    int Start;
+    int End;
+}typedef Meeting;
+
+bool compare(const Meeting &m1, const Meeting &m2){
+    if(m1.Start == m2.End)
+        return m1.Start < m2.Start;
+    else
+        return m1.End < m2.End;
+}
+
+int main()
+{
+    int N;
+    cin >> N;
+        
+    Meeting M;
+    vector<Meeting> cost;
+    vector<Meeting> ableMeeting;
+
+    for(int i = 0; i<N; i++){
+        cin >> M.Start >> M.End;
+        cost.push_back(M);
+    }
+
+    sort(cost.begin(), cost.end(), compare);
+    ableMeeting.push_back(cost[0]);
+
+    for(int i = 1, j = 0; i<N; i++){
+        if(ableMeeting[j].End <= cost[i].Start ){
+            ableMeeting.push_back(cost[i]);
+            j++;
+        }
+    }
+
+    cout << ableMeeting.size() << endl;
+
+    return 0;
+}
