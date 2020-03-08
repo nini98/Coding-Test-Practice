@@ -1,0 +1,18 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+    long long N, K, B, A, result;
+    scanf("%lli", &N);
+    scanf("%lli", &K);
+    B = (K+1)%N;
+    A = (K+1)/N;
+    result = (A+1)*B;
+
+    printf("%lli\n", result);
+    return 0;
+}
