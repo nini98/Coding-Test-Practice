@@ -1,0 +1,26 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    int N, i, x;
+    vector <int> V;
+    vector <int>::iterator it;
+    scanf("%d", &N);
+    for(i = 0; i<N; i++){
+        scanf("%d", &x);
+
+        if(V.empty() || V.back() < x)
+            V.push_back(x);
+        else{
+            it = lower_bound(V.begin(), V.end(), x);
+            *it = x;
+        }
+    }
+    printf("%d", int(V.size()));
+    return 0;
+}
