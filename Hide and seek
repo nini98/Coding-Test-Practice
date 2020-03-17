@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <queue>
+#include <utility>
+
+#define MAX 100000
+using namespace std;
+
+void bfs(int N, int K){
+    int tmp, cnt = 0;
+    queue <pair<int,int> > q;
+    q.push(make_pair(N, 1));
+
+    while(1){
+        tmp = q.front().first;
+        cnt = q.front().second;
+        q.pop();
+        if(tmp*2 == K || tmp+1 == K || tmp-1 == K){
+            break;
+        }
+        else{
+            q.push(make_pair(tmp*2, cnt+1));
+            q.push(make_pair(tmp+1, cnt+1));
+            q.push(make_pair(tmp-1, cnt+1));
+        }
+    }
+    printf("%d\n", cnt);
+}
+
+int main()
+{
+    int N, K;
+
+    scanf("%d %d", &N, &K);
+
+    bfs(N,K);
+    return 0;
+}
