@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <string.h>
+#include <queue>
+
+#define MAX 100
+using namespace std;
+
+int graph[MAX][MAX][MAX];
+int cnt_graph[MAX][MAX][MAX];
+
+int bx[6] = {0, 1, -1, 0, 0, 0};
+int by[6] = {1, 0, 0, -1, 0, 0};
+int bz[6] = {0, 0, 0, 0, 1, -1};
+
+
+typedef struct coordinate{
+    int x;
+    int y;
+    int z;
+}coor;
+
+void bfs(queue <coor> q, int M,int N, int H){
+    int i, next_x, next_y, next_z, biggest = 0;
+    coor current, tmp;
+
+
+    while(!q.empty()){
+        current = q.front();
+        q.pop();
+
+        for(i = 0; i<6; i++){
+            next_x = current.x + bx[i];
+            next_y = current.y + by[i];
+            next_z = current.z + bz[i];
+
+            if(graph[next_x][next_y][next_z] == 0 && cnt_graph[next_x][next_y][next_z] == 0 && next_x >= 0 && next_x < N && next_y >= 0 && next_y < M && next_z >= 0 && next_z < H){
+                cnt_graph[next_x][next_y][next_z] = cnt_graph[current.x][current.y][current.z] + 1;
+                tmp.x = next_x;
+                tmp.y = next_y;
+                tmp.z = next_z;
+                q.push(tmp);
+                if(biggest < cnt_graph[next_x][next_y][next_z])
+                    biggest = cnt_graph[next_x][next_y][next_z];
+            }
+        }
+    }
+    printf("%d\n", biggest);
+}
+
+int main()
+{
+    int M, N, H, i, j, w;
+    queue <coor> start_point;
+    coor tmp;
+    memset(cnt_graph, 0, sizeof(cnt_graph));
+
+
+    scanf("%d %d %d", &M, &N, &H);
+    for(w = 0; w<H; w++){
+        for(i = 0; i<N; i++){
+            for(j = 0; j<M; j++)
+                scanf("%d", &graph[i][j][w]);
+        }
+    }
+
+    for(w = 0; w<H; w++){
+        for(i = 0; i<N; i++){
+            for(j = 0; j<M; j++){
+                if(graph[i][j][w] == 1){
+                    tmp.x = i;
+                    tmp.y = j;
+                    tmp.z = w;
+                    start_point.push(tmp);
+                }
+            }
+        }
+    }
+    bfs(start_point, M, N, H);
+    return 0;
+}
