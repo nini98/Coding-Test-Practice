@@ -1,0 +1,52 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <queue>
+#include <vector>
+
+#define MAX 999999
+using namespace std;
+
+vector <pair<int, int> > graph[801];
+
+
+int Dijkstra(int N, int src, int dest){
+    vector <int> dist(N+1, MAX);
+    priority_queue< int > pq;
+    int i;
+
+    dist[src] = 0;
+    pq.push(src);
+
+    while(!pq.empty()){
+        int current = pq.top();
+        pq.pop();
+
+        for(i = 0; i<graph[current].size(); i++){
+            int next = graph[current][i].first;
+            int next_weight = graph[current][i].second;
+
+            if(dist[next] > dist[current] + next_weight){
+                dist[next] = dist[current] + next_weight;
+                pq.push(next);
+            }
+        }
+    }
+    return dist[dest];
+}
+
+int main()
+{
+    int N, E, a, b, c, i, via1, via2, sum;
+    scanf("%d %d", &N, &E);
+    for(i = 0; i<E; i++){
+        scanf("%d %d %d", &a, &b, &c);
+        graph[a].push_back({b, c});
+        graph[b].push_back({a, c});
+    }
+    scanf("%d %d", &via1, &via2);
+
+    printf("%d", min( Dijkstra(N, 1, via1) + Dijkstra(N, via1, via2) + Dijkstra(N, via2, N) ,  Dijkstra(N, 1, via2) + Dijkstra(N, via2, via1) + Dijkstra(N, via1, N) ));
+
+    return 0;
+}
